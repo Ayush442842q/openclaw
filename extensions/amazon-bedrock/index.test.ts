@@ -418,6 +418,12 @@ describe("amazon-bedrock provider plugin", () => {
     expect(supportsBedrockPromptCaching("us.anthropic.claude-fable-5")).toBe(true);
   });
 
+  it("recognizes Claude Sonnet 5 refs as prompt-cache eligible", () => {
+    expect(supportsBedrockPromptCaching("global.anthropic.claude-sonnet-5")).toBe(true);
+    expect(supportsBedrockPromptCaching("anthropic.claude-sonnet-5")).toBe(true);
+    expect(supportsBedrockPromptCaching("us.anthropic.claude-sonnet-5")).toBe(true);
+  });
+
   it("owns Anthropic-style replay policy for Claude Bedrock models", async () => {
     const provider = await registerSingleProviderPlugin(amazonBedrockPlugin);
 

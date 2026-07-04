@@ -255,6 +255,31 @@ describe("bedrock discovery", () => {
     });
   });
 
+  it("resolves 200K context window for Claude Sonnet 5 foundation model", async () => {
+    sendMock
+      .mockResolvedValueOnce({
+        modelSummaries: [
+          {
+            modelId: "anthropic.claude-sonnet-5",
+            modelName: "Claude Sonnet 5",
+            providerName: "Anthropic",
+            inputModalities: ["TEXT"],
+            outputModalities: ["TEXT"],
+            responseStreamingSupported: true,
+            modelLifecycle: { status: "ACTIVE" },
+          },
+        ],
+      })
+      .mockResolvedValueOnce({ inferenceProfileSummaries: [] });
+
+    const models = await discoverBedrockModels({ region: "us-east-1", clientFactory });
+    expect(models).toHaveLength(1);
+    expectModelFields(models[0], {
+      id: "anthropic.claude-sonnet-5",
+      contextWindow: 200_000,
+    });
+  });
+
   it("uses 1M context window for dotted Claude Opus 4.8 Bedrock refs", async () => {
     sendMock
       .mockResolvedValueOnce({

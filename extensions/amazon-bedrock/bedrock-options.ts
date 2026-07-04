@@ -50,5 +50,8 @@ export function supportsBedrockPromptCaching(modelId: string, modelName?: string
   if (candidates.some((s) => s.includes("claude-3-5-haiku"))) {
     return true;
   }
+  if (candidates.some((s) => s.includes("claude-sonnet-5"))) {
+    return true;
+  }
   return false;
 }
